@@ -1,0 +1,122 @@
+commit 1a4b478d27a3338b372f271567be2680dde8b212
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 16:32:12 2019 +0200
+
+    delete 1 rename 22
+
+ tiedostoja/file1             | 1 -
+ tiedostoja/{file2 => file22} | 0
+ 2 files changed, 1 deletion(-)
+
+commit b3c4fe514caf63c280685638da27a3772a83dd08
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 16:28:35 2019 +0200
+
+    a
+
+ tiedostoja/file1 | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit e306b50736f53a1d7d26b07253982edc1176c5e6
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 16:06:54 2019 +0200
+
+    tiedostoja luotu
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit b622ccee6d2da4daca83285d33789cdcae4e7505
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:57:38 2019 +0200
+
+    lisäyksiä ja poistoja -p
+
+ eka.txt    | 24 +++++-------------------
+ kolmas.txt |  3 ++-
+ 2 files changed, 7 insertions(+), 20 deletions(-)
+
+commit f2a7993381ba56b9b2f97a82663f68afb7a9177d
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:48:45 2019 +0200
+
+    uudeelleennimetty 1
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit afc00479c33ce675b480128b511d04a1b7aaa24a
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:45:49 2019 +0200
+
+    toinen poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 09d77753e1cd71e28aec0a3aa8d6e72b7b4d81a3
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:42:18 2019 +0200
+
+    muutoksia tiedostoon
+
+ tiedosto.txt | 15 +--------------
+ 1 file changed, 1 insertion(+), 14 deletions(-)
+
+commit 11eff59d7463a39f23ffc94edb49fef9c75a600e
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:37:12 2019 +0200
+
+    paljon tekstiä tiedostoon
+
+ tiedosto.txt | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+
+commit c0d0a52e65ee7fb02f973e65fd66ba18343925a6
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:27:56 2019 +0200
+
+    stuff and thing.txt
+
+ stuff/thing.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 04c3219e9af2d8b2a6ae987c4ef02e3bd219138b
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:25:52 2019 +0200
+
+    Lisäyket 123 ja 456
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 0e7d813309181d565f3d92ff9ba11b4babe8fa85
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:22:49 2019 +0200
+
+    kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 82fa3b90e89a85e6e6d2f4f06e2f1bd3aaf365cb
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:17:23 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit b4dcc33d9478f502452c95595f49268c0c9163d3
+Author: 014589012 <kalle.a.kailamaki@helsinki.fi>
+Date:   Mon Mar 18 15:09:25 2019 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
