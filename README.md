@@ -13,4 +13,6 @@ Tämä on paikallinen muutos.
 #### Viikko 2 project
 [vaatimusmäärittely](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
+[Työaikakirjaanpito](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjaanpito.md)
+
 
