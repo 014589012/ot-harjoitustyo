@@ -9,10 +9,11 @@ Tämä on paikallinen muutos.
 [gitlog](https://github.com/014589012/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 
 #### Viikko 2
+[testikattavuus kuva](https://github.com/014589012/ot-harjoitustyo/blob/master/laskarit/viikko2/Testikattavuus.png)
 
 #### Viikko 2 project
 [vaatimusmäärittely](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/vaatimusmaarittely.md)
 
-[Työaikakirjaanpito](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjaanpito.md)
+[työaikakirjaanpito](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjaanpito.md)
 
 
