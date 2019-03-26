@@ -110,5 +110,11 @@ public class KassapaateTest {
         assertEquals("100050:550",kp.kassassaRahaa()+":"+k2.saldo());      
     }
     
+    @Test
+    public void kortilleEiVoiLadataNegatiivistaSummaa() {
+        kp.lataaRahaaKortille(k2,-50);
+        assertEquals("100000:500",kp.kassassaRahaa()+":"+k2.saldo());      
+    }
+    
 }
 
