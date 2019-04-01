@@ -16,4 +16,12 @@ Tämä on paikallinen muutos.
 
 [työaikakirjaanpito](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjaanpito.md)
 
+#### Viikko 3
+__1__ [monopoli luokkakaavio(alustava)](https://github.com/014589012/ot-harjoitustyo/blob/master/laskarit/viikko3/monopolydraft.png)
+
+__2__ [monopoli luokkakaavio](https://github.com/014589012/ot-harjoitustyo/blob/master/laskarit/viikko3/monopoly.png)
+
+__3__ [machine sekvenssikaavio](https://github.com/014589012/ot-harjoitustyo/blob/master/laskarit/viikko3/machineseq2.png)
+
+__4__ [HSL sekvenssikaavio](https://github.com/014589012/ot-harjoitustyo/blob/master/laskarit/viikko3/HSLseq.png)
 
