@@ -6,7 +6,7 @@ import domain.User;
 
 public interface UserDao {
     
-    User create(User user) throws Exception;
+    boolean create(User user) throws Exception;
 
     User findByUsername(String username);
 
