@@ -5,3 +5,4 @@ Päivä | Aika(h) | Mitä tein
 25.3  | 1       | alustava määrittelydokumentti
 1.4   | 1.5     | luokat tapahtumalle ja käyttäjälle
 2.4   | 2.5     | muokkasin luokkia ja loin testejä
+5.4   | 1       | alustava main
