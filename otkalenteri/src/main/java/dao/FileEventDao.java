@@ -23,7 +23,7 @@ public class FileEventDao implements EventDao{
     }
 
     @Override
-    public void delete(Event event) throws Exception {
+    public void delete(Event event){
         events.remove(event);
     }
 

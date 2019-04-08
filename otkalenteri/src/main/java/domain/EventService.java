@@ -6,35 +6,58 @@ import java.util.List;
 
 public class EventService {
 
-    public static boolean login(String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     private FileEventDao eventDao;
     private FileUserDao userDao;
+    private User loggedIn;
 
     public EventService(FileEventDao eventDao, FileUserDao userDao) {
         this.eventDao = eventDao;
         this.userDao = userDao;
     }
 
+    public boolean login(String username, String password) {
+        User user = userDao.findByUsername(username);
+        if (user == null) {
+            return false;
+        }
+        if(!user.getPassword().equals(password)) return false;
+        loggedIn = user;
+        return true;
+    }
+    
     public Object getLoggedUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return loggedIn;
     }
 
-    public void createEvent(String text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean createEvent(String text) {
+        Event todo = new Event(text, "01.01.2019", false, loggedIn);
+        try {   
+            eventDao.create(todo);
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
 
     public void logout() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        loggedIn=null;
     }
 
     public boolean createUser(String username, String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (userDao.findByUsername(username) != null) {
+            return false;
+        }
+        User user = new User(username, name);
+        try {
+            userDao.create(user);
+        } catch(Exception e) {
+            return false;
+        }
+        return true;
     }
 
-    public void markDone(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void markDone(Event e2 ){
+        eventDao.delete(e2);
     }
 
     public List<Event> getUpcoming() {
