@@ -6,4 +6,6 @@ Ohjelma on kalenteri, missä käyttäjät pystyvät luomaan yksityisiä ja julki
 
 [työaikakirjaanpito](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/tyoaikakirjaanpito.md)
 
+[arkkitehtuuri](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
+
 
