@@ -7,14 +7,14 @@ public class FileUserDao implements UserDao{
     public List<User> users;
 
     public FileUserDao() {
-        this.users = new ArrayList<User>();
+        this.users = new ArrayList<>();
     }
-    
-    
+
+
     private int generateId() {
         return users.size()+1;
     }
-    
+
     @Override
     public boolean create(User user){
         if(user.getUsername().length()>24 || user.getUsername().length()<3) return false;
@@ -40,5 +40,5 @@ public class FileUserDao implements UserDao{
         return users;
     }
 
-    
+
 }

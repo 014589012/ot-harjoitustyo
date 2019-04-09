@@ -2,12 +2,14 @@ package domain;
 
 import dao.FileEventDao;
 import dao.FileUserDao;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Date;
 
 public class EventService {
 
-    private FileEventDao eventDao;
-    private FileUserDao userDao;
+    private final FileEventDao eventDao;
+    private final FileUserDao userDao;
     private User loggedIn;
 
     public EventService(FileEventDao eventDao, FileUserDao userDao) {
@@ -24,15 +26,15 @@ public class EventService {
         loggedIn = user;
         return true;
     }
-    
-    public Object getLoggedUser() {
+
+    public User getLoggedUser() {
         return loggedIn;
     }
 
-    public boolean createEvent(String text) {
-        Event todo = new Event(text, "01.01.2019", false, loggedIn);
-        try {   
-            eventDao.create(todo);
+    public boolean createEvent(String text) throws ParseException {
+        Event event = new Event(text, "2019/01/01", false, loggedIn);
+        try {
+            eventDao.create(event);
         } catch (Exception ex) {
             return false;
         }
@@ -43,11 +45,11 @@ public class EventService {
         loggedIn=null;
     }
 
-    public boolean createUser(String username, String name) {
+    public boolean createUser(String username, String password) {
         if (userDao.findByUsername(username) != null) {
             return false;
         }
-        User user = new User(username, name);
+        User user = new User(username, password);
         try {
             userDao.create(user);
         } catch(Exception e) {
@@ -60,11 +62,20 @@ public class EventService {
         eventDao.delete(e2);
     }
 
-    public List<Event> getUpcoming() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Event> getUpcomingPublic() {
+        return eventDao.getAllPublic();
     }
-    
-    
-    
-    
+
+    public List<Event> getUpcomingPrivate(User user) {
+        List<Event> z =eventDao.getAllPrivate(user);
+	Date currentdate = new Date();
+        for (Event ez : z) {
+            if(ez.getDate().before(currentdate)) z.remove(ez);
+        }
+        return z;
+    }
+
+
+
+
 }

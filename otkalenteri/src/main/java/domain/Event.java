@@ -1,18 +1,22 @@
 package domain;
-import domain.User;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class Event {
-    private String name;
-    private String date;
-    private User user;
-    private boolean prive;
+    private final String name;
+    private final Date date;
+    private final User user;
+    private final boolean prive;
     private int id;
 
-    public Event(String name, String date, boolean prive, User user) {
+    public Event(String name, String date, boolean prive, User user) throws ParseException {
         this.id=0;
         this.name = name;
-        this.date = date;
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        this.date = df.parse(date);
         this.prive = prive;
         this.user = user;
     }
@@ -21,7 +25,7 @@ public class Event {
         return name;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -36,10 +40,10 @@ public class Event {
     public void setId(int id){
         this.id = id;
     }
-    
+
     public int getId() {
         return id;
     }
-    
-    
+
+
 }

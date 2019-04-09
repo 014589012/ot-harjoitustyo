@@ -9,10 +9,10 @@ public class FileEventDao implements EventDao{
     public List<Event> events;
 
     public FileEventDao() {
-        this.events = new ArrayList<Event>();
+        this.events = new ArrayList<>();
     }
-    
-    
+
+
     private int generateId(){
         return events.size()+1;
     }
@@ -29,7 +29,7 @@ public class FileEventDao implements EventDao{
 
     @Override
     public List<Event> getAllPrivate(User user) {
-        List<Event> ans = new ArrayList<Event>();
+        List<Event> ans = new ArrayList<>();
         for (Event e2 : events) {
             if(e2.getUser().getId()==user.getId() && e2.isPrivate()) ans.add(e2);
         }
@@ -38,11 +38,11 @@ public class FileEventDao implements EventDao{
 
     @Override
     public List<Event> getAllPublic() {
-        List<Event> ans = new ArrayList<Event>();
+        List<Event> ans = new ArrayList<>();
         for (Event e2 : events) {
             if(!e2.isPrivate()) ans.add(e2);
         }
         return ans;
     }
-    
+
 }
