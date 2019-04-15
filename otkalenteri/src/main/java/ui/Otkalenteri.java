@@ -5,8 +5,10 @@ import dao.FileEventDao;
 import dao.FileUserDao;
 import domain.Event;
 import domain.EventService;
+import java.text.DateFormat;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -25,6 +27,9 @@ import javafx.stage.Stage;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.geometry.HPos;
+import javafx.scene.control.DatePicker;
+import javafx.scene.layout.GridPane;
 
 
 
@@ -56,7 +61,8 @@ public class Otkalenteri extends Application{
         HBox box = new HBox(10);
         Label label  = new Label(ev.getName());
         label.setMinHeight(28);
-        Button button = new Button("done");
+        Label dt  = new Label(ev.getDateAsString());
+        Button button = new Button("delete");
         button.setOnAction(e->{
             eventService.markDone(ev);
             redrawEventlist();
@@ -65,8 +71,12 @@ public class Otkalenteri extends Application{
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         box.setPadding(new Insets(0,5,0,5));
-
-        box.getChildren().addAll(label, spacer, button);
+        
+        if(ev.getUser().equals(eventService.getLoggedUser())){
+            box.getChildren().addAll(label, spacer,dt, button);
+        } else {
+            box.getChildren().addAll(label,spacer,dt);
+        }
         return box;
     }
 
@@ -94,6 +104,7 @@ public class Otkalenteri extends Application{
 
         VBox loginPane = new VBox(10);
         HBox inputPane = new HBox(10);
+        HBox inputPane2 = new HBox(10);
         loginPane.setPadding(new Insets(10));
         Label loginLabel = new Label("Username");
         TextField usernameInput = new TextField();
@@ -101,8 +112,7 @@ public class Otkalenteri extends Application{
         TextField passwordInput = new TextField();
 
         inputPane.getChildren().addAll(loginLabel, usernameInput);
-        inputPane.getChildren().addAll(loginLabelPassword, passwordInput);
-//        inputPane.getChildren().addAll(loginLabelPassword, passwordInput);
+        inputPane2.getChildren().addAll(loginLabelPassword, passwordInput);
         Label loginMessage = new Label();
 
         Button loginButton = new Button("Login");
@@ -127,7 +137,7 @@ public class Otkalenteri extends Application{
             primaryStage.setScene(newUserScene);
         });
 
-        loginPane.getChildren().addAll(loginMessage, inputPane, loginButton, createButton);
+        loginPane.getChildren().addAll(loginMessage, inputPane, inputPane2, loginButton, createButton);
 
         loginScene = new Scene(loginPane, 300, 250);
 
@@ -138,34 +148,37 @@ public class Otkalenteri extends Application{
         HBox newUsernamePane = new HBox(10);
         newUsernamePane.setPadding(new Insets(10));
         TextField newUsernameInput = new TextField();
-        Label newUsernameLabel = new Label("username");
+        Label newUsernameLabel = new Label("Username");
         newUsernameLabel.setPrefWidth(100);
         newUsernamePane.getChildren().addAll(newUsernameLabel, newUsernameInput);
 
-        HBox newNamePane = new HBox(10);
-        newNamePane.setPadding(new Insets(10));
-        TextField newNameInput = new TextField();
-        Label newNameLabel = new Label("password");
-        newNameLabel.setPrefWidth(100);
-        newNamePane.getChildren().addAll(newNameLabel, newNameInput);
+        HBox newPasswordPane = new HBox(10);
+        newPasswordPane.setPadding(new Insets(10));
+        TextField newPasswordInput = new TextField();
+        Label newPasswordLabel = new Label("Password");
+        newPasswordLabel.setPrefWidth(100);
+        newPasswordPane.getChildren().addAll(newPasswordLabel, newPasswordInput);
 
         Label userCreationMessage = new Label();
 
-        Button createNewUserButton = new Button("create");
+        Button createNewUserButton = new Button("Create");
         createNewUserButton.setPadding(new Insets(10));
 
         createNewUserButton.setOnAction(e->{
             String username = newUsernameInput.getText();
-            String password = newNameInput.getText();
+            String password = newPasswordInput.getText();
 
-            if ( username.length()<3 || password.length()<3 ) {
-                userCreationMessage.setText("username or name too short");
-                userCreationMessage.setTextFill(Color.RED);
-            } else if ( eventService.createUser(username, password) ){
+            if ( eventService.createUser(username, password) ){
                 userCreationMessage.setText("");
                 loginMessage.setText("new user created");
                 loginMessage.setTextFill(Color.GREEN);
                 primaryStage.setScene(loginScene);
+            } else if ( username.length()<3 || password.length()<3 ) {
+                userCreationMessage.setText("username or password too short");
+                userCreationMessage.setTextFill(Color.RED);
+            } else if ( username.length()>24 || password.length()>24 ) {
+                userCreationMessage.setText("username or password too long");
+                userCreationMessage.setTextFill(Color.RED);
             } else {
                 userCreationMessage.setText("username has to be unique");
                 userCreationMessage.setTextFill(Color.RED);
@@ -173,7 +186,7 @@ public class Otkalenteri extends Application{
 
         });
 
-        newUserPane.getChildren().addAll(userCreationMessage, newUsernamePane, newNamePane, createNewUserButton);
+        newUserPane.getChildren().addAll(userCreationMessage, newUsernamePane, newPasswordPane, createNewUserButton);
 
         newUserScene = new Scene(newUserPane, 300, 250);
 
@@ -183,6 +196,12 @@ public class Otkalenteri extends Application{
         BorderPane mainPane = new BorderPane(eventScollbar);
         eventScene = new Scene(mainPane, 300, 250);
 
+        HBox messagebox = new HBox(10);
+        Label whichSceneMessage = new Label();
+        whichSceneMessage.setText("PUBLIC EVENTS");
+        whichSceneMessage.setTextFill(Color.GREEN);
+        messagebox.getChildren().addAll(whichSceneMessage);
+        
         HBox menuPane = new HBox(10);
         Region menuSpacer = new Region();
         HBox.setHgrow(menuSpacer, Priority.ALWAYS);
@@ -196,30 +215,43 @@ public class Otkalenteri extends Application{
         toPrivateButton.setOnAction(e->{
             primaryStage.setScene(eventScenePrivate);
         });
+        
+        VBox vbox = new VBox(20);
+        vbox.setStyle("-fx-padding: 10;");
+        DatePicker checkInDatePicker = new DatePicker();
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        Label checkInlabel = new Label("Date");
+        gridPane.add(checkInlabel, 0, 0);
+        GridPane.setHalignment(checkInlabel, HPos.LEFT);
+        gridPane.add(checkInDatePicker, 0, 1);
 
         HBox createForm = new HBox(10);
         Button createEvent = new Button("Create");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         TextField newEventInput = new TextField();
-        createForm.getChildren().addAll(newEventInput, spacer, createEvent);
+        createForm.getChildren().addAll(newEventInput, gridPane, spacer, createEvent);
 
         eventNodes = new VBox(10);
-        eventNodes.setMaxWidth(280);
-        eventNodes.setMinWidth(280);
+        eventNodes.setMaxWidth(400);
+        eventNodes.setMinWidth(250);
         redrawEventlist();
 
         eventScollbar.setContent(eventNodes);
         mainPane.setBottom(createForm);
+        mainPane.setLeft(messagebox);
         mainPane.setTop(menuPane);
 
         createEvent.setOnAction(e->{
             try {
-                eventService.createEvent(newEventInput.getText());
+                eventService.createEvent(newEventInput.getText(),checkInDatePicker.getValue().toString(),false);
             } catch (ParseException ex) {
                 Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
             }
             newEventInput.setText("");
+            checkInDatePicker.setValue(null);
             redrawEventlist();
         });
 
@@ -288,6 +320,7 @@ public class Otkalenteri extends Application{
     public void stop() {
       eventService.logout();
       System.out.println("application closing");
+      System.exit(0);
     }
 
 }

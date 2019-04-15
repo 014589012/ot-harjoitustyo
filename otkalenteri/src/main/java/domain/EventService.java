@@ -31,8 +31,8 @@ public class EventService {
         return loggedIn;
     }
 
-    public boolean createEvent(String text) throws ParseException {
-        Event event = new Event(text, "2019/01/01", false, loggedIn);
+    public boolean createEvent(String text, String dd, boolean prive) throws ParseException {
+        Event event = new Event(text, dd, prive, loggedIn);
         try {
             eventDao.create(event);
         } catch (Exception ex) {
@@ -50,12 +50,10 @@ public class EventService {
             return false;
         }
         User user = new User(username, password);
-        try {
-            userDao.create(user);
-        } catch(Exception e) {
-            return false;
+        if(userDao.create(user)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public void markDone(Event e2 ){

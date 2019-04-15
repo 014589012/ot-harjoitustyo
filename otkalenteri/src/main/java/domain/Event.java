@@ -2,6 +2,7 @@ package domain;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -15,8 +16,9 @@ public class Event {
     public Event(String name, String date, boolean prive, User user) throws ParseException {
         this.id=0;
         this.name = name;
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         this.date = df.parse(date);
+//        this.date= date;
         this.prive = prive;
         this.user = user;
     }
@@ -27,6 +29,11 @@ public class Event {
 
     public Date getDate() {
         return date;
+    }
+    
+    public String getDateAsString(){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        return df.format(date);
     }
 
     public User getUser() {

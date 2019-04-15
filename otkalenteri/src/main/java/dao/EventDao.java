@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface EventDao {
-    void create(Event event) throws Exception;
+    boolean create(Event event) throws Exception;
 
     void delete(Event event) throws Exception;
 
