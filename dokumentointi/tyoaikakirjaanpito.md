@@ -8,3 +8,4 @@ Päivä | Aika(h) | Mitä tein
 5.4   | 1       | alustava main
 8.4   | 1       | EventService-luokan muokkaus
 9.4   | 4       | main korjauksia ja checkstyle
+15.4  | 3       | päivän voi nyt valita kalenterista ja voi poistaa omia tapahtumia
