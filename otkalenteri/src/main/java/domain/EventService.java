@@ -32,6 +32,7 @@ public class EventService {
     }
 
     public boolean createEvent(String text, String dd, boolean prive) throws ParseException {
+        if(dd.isEmpty()) return false;
         Event event = new Event(text, dd, prive, loggedIn);
         try {
             eventDao.create(event);
@@ -61,6 +62,11 @@ public class EventService {
     }
 
     public List<Event> getUpcomingPublic() {
+        List<Event> z =eventDao.getAllPublic();
+	Date currentdate = new Date();
+        for (Event ez : z) {
+            if((!(currentdate.equals(ez.getDate()))) &&currentdate.after(ez.getDate())) eventDao.delete(ez);
+        }
         return eventDao.getAllPublic();
     }
 
@@ -68,9 +74,9 @@ public class EventService {
         List<Event> z =eventDao.getAllPrivate(user);
 	Date currentdate = new Date();
         for (Event ez : z) {
-            if(ez.getDate().before(currentdate)) z.remove(ez);
+            if(!currentdate.before(ez.getDate())) eventDao.delete(ez);
         }
-        return z;
+        return eventDao.getAllPrivate(user);
     }
 
 

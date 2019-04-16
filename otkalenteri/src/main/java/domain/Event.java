@@ -12,6 +12,7 @@ public class Event {
     private final User user;
     private final boolean prive;
     private int id;
+    private String description;
 
     public Event(String name, String date, boolean prive, User user) throws ParseException {
         this.id=0;
@@ -21,6 +22,7 @@ public class Event {
 //        this.date= date;
         this.prive = prive;
         this.user = user;
+        this.description = "";
     }
 
     public String getName() {
@@ -50,6 +52,14 @@ public class Event {
 
     public int getId() {
         return id;
+    }
+    
+    public void setDescription(String des){
+        this.description = des;
+    }
+    
+    public String getDescription(){
+        return description;
     }
 
 
