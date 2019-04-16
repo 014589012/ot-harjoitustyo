@@ -25,9 +25,9 @@ public class EventTest {
         fud = new FileUserDao();
         kalle = new User("kalle","salasana");
         tuomas = new User("tuomas", "password");
-        party = new Event("party", "2019/04/27", false, kalle);
-        crafts = new Event("crafts", "2019/06/10", true, tuomas);
-        sports = new Event("urheilua", "2018/05/05", false, tuomas);
+        party = new Event("party", "2019-04-27", false, kalle);
+        crafts = new Event("crafts", "2019-06-10", true, tuomas);
+        sports = new Event("urheilua", "2018-05-05", false, tuomas);
     }
 
     @Test
@@ -61,6 +61,16 @@ public class EventTest {
         assertFalse(fud.create(new User("12345", "a_")));
     }
 
+    @Test
+    public void cannotCreateEventWithNameOver24Characters() throws ParseException, Exception{
+        assertFalse(fed.create(new Event("abcdefghijklmnopqrstuvwxyzåäö", "2019-04-28",true,kalle)));
+    }
+
+    @Test
+    public void cannotCreateEventWithNameUnder3Characters() throws ParseException, Exception{
+        assertFalse(fed.create(new Event("a_", "2019-02-02",false,tuomas)));
+    }
+    
     @Test
     public void findByUsernameWorks(){
         fud.create(kalle);

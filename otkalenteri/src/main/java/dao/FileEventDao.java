@@ -18,7 +18,7 @@ public class FileEventDao implements EventDao{
     }
     @Override
     public boolean create(Event event) throws Exception {
-        if(event.getName().length()>24 || event.getName().length()<3) throw new Exception();
+        if(event.getName().length()>24 || event.getName().length()<3) return false;
         event.setId(generateId());
         events.add(event);
         return true;

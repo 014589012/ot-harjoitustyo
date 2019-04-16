@@ -34,12 +34,13 @@ public class EventService {
     public boolean createEvent(String text, String dd, boolean prive) throws ParseException {
         if(dd.isEmpty()) return false;
         Event event = new Event(text, dd, prive, loggedIn);
+        boolean x = true;
         try {
-            eventDao.create(event);
+            x = eventDao.create(event);
         } catch (Exception ex) {
             return false;
         }
-        return true;
+        return x;
     }
 
     public void logout() {
