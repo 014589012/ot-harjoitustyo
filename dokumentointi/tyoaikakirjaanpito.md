@@ -9,3 +9,6 @@ Päivä | Aika(h) | Mitä tein
 8.4   | 1       | EventService-luokan muokkaus
 9.4   | 4       | main korjauksia ja checkstyle
 15.4  | 3       | päivän voi nyt valita kalenterista ja voi poistaa omia tapahtumia
+16.4  | 4       | vain tulevat tapahtumat näkyvät nyt ja loin myös uusia testejä
+
+##### total aika = 18
