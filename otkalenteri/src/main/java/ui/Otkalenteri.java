@@ -5,7 +5,7 @@ import dao.FileEventDao;
 import dao.FileUserDao;
 import domain.Event;
 import domain.EventService;
-
+// kakka ebin piss piss
 import java.text.ParseException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
