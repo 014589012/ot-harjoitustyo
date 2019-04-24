@@ -11,4 +11,23 @@ Ohjelma on kalenteri, missä käyttäjät pystyvät luomaan yksityisiä ja julki
 #### Github Release
 [First pre-release](https://github.com/014589012/ot-harjoitustyo/releases/tag/viikko5)
 
+#### Komennot
 
+**Jar**
+
+Jar tiedoston voi generoida komennolla
+`mvn package`, jolloin
+
+hakemistossa target voi käynnistää sovelluksen komennolla
+
+`java -jar otkalenteri-1.0-SNAPSHOT.jar`.
+
+**Testaus**
+
+Testit voi pyörittää komennolla
+`mvn test`.
+
+Testikattavuus raportin voi luoda komennolla
+`mvn jacoco:report`, jolloin
+
+raportin *target/site/jacoco/index.html* voi avata selaimella.
