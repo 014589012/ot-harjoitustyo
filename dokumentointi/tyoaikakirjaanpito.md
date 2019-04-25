@@ -10,5 +10,6 @@ Päivä | Aika(h) | Mitä tein
 9.4   | 4       | main korjauksia ja checkstyle
 15.4  | 3       | päivän voi nyt valita kalenterista ja voi poistaa omia tapahtumia
 16.4  | 4       | vain tulevat tapahtumat näkyvät nyt ja loin myös uusia testejä
+26.4  | 5       | private/public näkymien välillä vaihtelu toimii, salasana saa piiloon tai näkyviin ja korjasin bugeja
 
-##### total aika = 18
+##### total aika = 23
