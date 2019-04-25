@@ -13,7 +13,7 @@ Ohjelma on kalenteri, missä käyttäjät pystyvät luomaan yksityisiä ja julki
 
 #### Komennot
 
-**Jar**
+##### Jar
 
 Jar tiedoston voi generoida komennolla
 `mvn package`, jolloin
@@ -22,12 +22,20 @@ hakemistossa target voi käynnistää sovelluksen komennolla
 
 `java -jar otkalenteri-1.0-SNAPSHOT.jar`.
 
-**Testaus**
+##### Testaus
 
 Testit voi pyörittää komennolla
+
 `mvn test`.
 
 Testikattavuus raportin voi luoda komennolla
+
 `mvn jacoco:report`, jolloin
 
 raportin *target/site/jacoco/index.html* voi avata selaimella.
+
+##### Checkstyle
+
+Checkstyle-tarkistukset voi suorittaa komennolla
+
+`mvn jxr:jxr checkstyle:checkstyle`.
