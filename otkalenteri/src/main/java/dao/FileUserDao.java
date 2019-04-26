@@ -3,9 +3,19 @@ package dao;
 import domain.User;
 import java.util.*;
 
+/**
+ * Class for dealing with a list of users.
+ */
 public class FileUserDao implements UserDao{
+    /**
+    * List of users.
+    */
     public List<User> users;
 
+    /**
+    * Constructor for FileUserDao initializes list of users to an empty ArrayList.
+    * 
+    */
     public FileUserDao() {
         this.users = new ArrayList<>();
     }

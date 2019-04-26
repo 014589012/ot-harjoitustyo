@@ -6,17 +6,35 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Date;
 
+/**
+ * Class offers a variety of backend methods for Otkalenteri.
+ */
 public class EventService {
 
     private final FileEventDao eventDao;
     private final FileUserDao userDao;
     private User loggedIn;
 
+    /**
+    * Constructor for EventService initializes eventDao and userDao.
+    *
+    * @param   eventDao   FileEventDao for the service.
+    * @param   userDao   FileUserDao for the service.
+    * 
+    */
     public EventService(FileEventDao eventDao, FileUserDao userDao) {
         this.eventDao = eventDao;
         this.userDao = userDao;
     }
-
+    
+    /**
+    * Method logs user in.
+    *
+    * @param   username   Name of user.
+    * @param   password   Password of user.
+    * 
+    * @return Boolean value for whether login worked.
+    */
     public boolean login(String username, String password) {
         User user = userDao.findByUsername(username);
         if (user == null) {
@@ -27,10 +45,24 @@ public class EventService {
         return true;
     }
 
+    /**
+    * Method gets user currently logged in.
+    *
+    * @return Logged user or null of no one is logged in.
+    */
     public User getLoggedUser() {
         return loggedIn;
     }
 
+    /**
+    * Method creates a new event.
+    *
+    * @param   text   Name of the event.
+    * @param   dd   Date as string (in format yyyy-MM-dd).
+    * @param   prive   Boolean value for whether the event is private.
+    * 
+    * @return Boolean value for whether event creation worked.
+    */
     public boolean createEvent(String text, String dd, boolean prive) throws ParseException {
         if(dd.isEmpty()) return false;
         Event event = new Event(text, dd, prive, loggedIn);
@@ -43,10 +75,22 @@ public class EventService {
         return x;
     }
 
+    /**
+    * Method sets currently logged in user to null.
+    *
+    */
     public void logout() {
         loggedIn=null;
     }
 
+    /**
+    * Method creates a new user.
+    *
+    * @param   username   Name of user.
+    * @param   password   Password of user.
+    * 
+    * @return Boolean value for whether user creation worked.
+    */
     public boolean createUser(String username, String password) {
         if (userDao.findByUsername(username) != null) {
             return false;
@@ -58,10 +102,20 @@ public class EventService {
         return false;
     }
 
+    /**
+    * Method deletes an event.
+    *
+    * @param   e2   Event to be deleted.
+    */
     public void markDone(Event e2 ){
         eventDao.delete(e2);
     }
 
+    /**
+    * Method lists upcoming public events.
+    * 
+    * @return List of all upcoming public events.
+    */
     public List<Event> getUpcomingPublic() {
         List<Event> z =eventDao.getAllPublic();
 	Date currentdate = new Date();
@@ -71,6 +125,13 @@ public class EventService {
         return eventDao.getAllPublic();
     }
 
+    /**
+    * Method lists upcoming private events.
+    * 
+    * @param   user   User whose private events are listed.
+    * 
+    * @return List of all upcoming private events for specific user.
+    */
     public List<Event> getUpcomingPrivate(User user) {
         List<Event> z =eventDao.getAllPrivate(user);
 	Date currentdate = new Date();

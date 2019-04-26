@@ -4,10 +4,19 @@ import domain.Event;
 import domain.User;
 import java.util.*;
 
-
+/**
+ * Class for dealing with a list of events.
+ */
 public class FileEventDao implements EventDao{
+    /**
+    * List of events
+    */
     public List<Event> events;
 
+    /**
+    * Constructor for FileEventDao initializes list of events to an empty ArrayList.
+    * 
+    */
     public FileEventDao() {
         this.events = new ArrayList<>();
     }
