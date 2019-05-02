@@ -91,7 +91,7 @@ public class EventService {
     * 
     * @return Boolean value for whether user creation worked.
     */
-    public boolean createUser(String username, String password) {
+    public boolean createUser(String username, String password) throws Exception {
         if (userDao.findByUsername(username) != null) {
             return false;
         }
@@ -107,7 +107,7 @@ public class EventService {
     *
     * @param   e2   Event to be deleted.
     */
-    public void markDone(Event e2 ){
+    public void markDone(Event e2 ) throws Exception{
         eventDao.delete(e2);
     }
 
@@ -116,7 +116,7 @@ public class EventService {
     * 
     * @return List of all upcoming public events.
     */
-    public List<Event> getUpcomingPublic() {
+    public List<Event> getUpcomingPublic() throws Exception {
         List<Event> z =eventDao.getAllPublic();
 	Date currentdate = new Date();
         for (Event ez : z) {
@@ -132,7 +132,7 @@ public class EventService {
     * 
     * @return List of all upcoming private events for specific user.
     */
-    public List<Event> getUpcomingPrivate(User user) {
+    public List<Event> getUpcomingPrivate(User user) throws Exception {
         List<Event> z =eventDao.getAllPrivate(user);
 	Date currentdate = new Date();
         for (Event ez : z) {

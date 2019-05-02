@@ -24,6 +24,17 @@ public class Event {
         this.user = user;
         this.description = "";
     }
+    
+    public Event(int id, String name, String date, boolean prive, User user) throws ParseException {
+        this.id=id;
+        this.name = name;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        this.date = df.parse(date);
+//        this.date= date;
+        this.prive = prive;
+        this.user = user;
+        this.description = "";
+    }
 
     public String getName() {
         return name;

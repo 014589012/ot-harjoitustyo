@@ -5,6 +5,7 @@ import dao.FileEventDao;
 import dao.FileUserDao;
 import domain.Event;
 import domain.EventService;
+import java.io.FileInputStream;
 import java.text.ParseException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -55,8 +56,15 @@ public class Otkalenteri extends Application{
 
     @Override
     public void init() throws Exception {
+        Properties properties = new Properties();
+
+        properties.load(new FileInputStream("config.properties"));
+        
+        String userFile = properties.getProperty("userFile");
+        String eventFile = properties.getProperty("eventFile");
+
         FileUserDao userDao = new FileUserDao();
-        FileEventDao eventDao = new FileEventDao();
+        FileEventDao eventDao = new FileEventDao(eventFile, userDao);
         eventService = new EventService(eventDao, userDao);
         privv = false;
     }
@@ -68,9 +76,21 @@ public class Otkalenteri extends Application{
         Label dt  = new Label(ev.getDateAsString());
         Button button = new Button("delete");
         button.setOnAction(e->{
-            eventService.markDone(ev);
-            redrawEventlist();
-            redrawEventlistPrivate();
+            try {
+                eventService.markDone(ev);
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                redrawEventlist();
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                redrawEventlistPrivate();
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         Region spacer = new Region();
@@ -85,7 +105,7 @@ public class Otkalenteri extends Application{
         return box;
     }
 
-    public void redrawEventlist() {
+    public void redrawEventlist() throws Exception {
         eventNodes.getChildren().clear();
 
         List<Event> upcomingEv = eventService.getUpcomingPublic();
@@ -94,7 +114,7 @@ public class Otkalenteri extends Application{
         });
     }
 
-    public void redrawEventlistPrivate() {
+    public void redrawEventlistPrivate() throws Exception {
         eventNodes2.getChildren().clear();
 
         List<Event> upcomingEv = eventService.getUpcomingPrivate(eventService.getLoggedUser());
@@ -139,7 +159,11 @@ public class Otkalenteri extends Application{
             menuLabel2.setText("welcome " + username);
             if ( eventService.login(username,password) ){
                 loginMessage.setText("");
-                redrawEventlist();
+                try {
+                    redrawEventlist();
+                } catch (Exception ex) {
+                    Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 primaryStage.setScene(eventScene);
                 usernameInput.setText("");
                 passwordInput.setText("");
@@ -197,22 +221,26 @@ public class Otkalenteri extends Application{
         createNewUserButton.setOnAction(e->{
             String username = newUsernameInput.getText();
             String password = newPasswordInput.getText();
-            if ( eventService.createUser(username, password) ){
-                userCreationMessage.setText("");
-                newUsernameInput.setText("");
-                newPasswordInput.setText("");
-                loginMessage.setText("new user created");
-                loginMessage.setTextFill(Color.GREEN);
-                primaryStage.setScene(loginScene);
-            } else if ( username.length()<3 || password.length()<3 ) {
-                userCreationMessage.setText("username or password too short");
-                userCreationMessage.setTextFill(Color.RED);
-            } else if ( username.length()>24 || password.length()>24 ) {
-                userCreationMessage.setText("username or password too long");
-                userCreationMessage.setTextFill(Color.RED);
-            } else {
-                userCreationMessage.setText("username has to be unique");
-                userCreationMessage.setTextFill(Color.RED);
+            try {
+                if ( eventService.createUser(username, password) ){
+                    userCreationMessage.setText("");
+                    newUsernameInput.setText("");
+                    newPasswordInput.setText("");
+                    loginMessage.setText("new user created");
+                    loginMessage.setTextFill(Color.GREEN);
+                    primaryStage.setScene(loginScene);
+                } else if ( username.length()<3 || password.length()<3 ) {
+                    userCreationMessage.setText("username or password too short");
+                    userCreationMessage.setTextFill(Color.RED);
+                } else if ( username.length()>24 || password.length()>24 ) {
+                    userCreationMessage.setText("username or password too long");
+                    userCreationMessage.setTextFill(Color.RED);
+                } else {
+                    userCreationMessage.setText("username has to be unique");
+                    userCreationMessage.setTextFill(Color.RED);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
@@ -289,7 +317,11 @@ public class Otkalenteri extends Application{
         eventNodes = new VBox(10);
         eventNodes.setMaxWidth(500);
         eventNodes.setMinWidth(300);
-        redrawEventlist();
+        try {
+            redrawEventlist();
+        } catch (Exception ex) {
+            Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         eventScollbar.setContent(eventNodes);
         mainPane.setBottom(createForm);
@@ -314,7 +346,11 @@ public class Otkalenteri extends Application{
             }
             newEventInput.setText("");
             checkInDatePicker.setValue(null);
-            redrawEventlist();
+            try {
+                redrawEventlist();
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         // Private scene
@@ -374,7 +410,11 @@ public class Otkalenteri extends Application{
         eventNodes2 = new VBox(10);
         eventNodes2.setMaxWidth(500);
         eventNodes2.setMinWidth(300);
-        redrawEventlistPrivate();
+        try {
+            redrawEventlistPrivate();
+        } catch (Exception ex) {
+            Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         eventScollbar2.setContent(eventNodes2);
         mainPanePrive.setBottom(createForm2);
@@ -382,24 +422,28 @@ public class Otkalenteri extends Application{
         mainPanePrive.setTop(menuPane2);
 
         createEvent2.setOnAction(e->{
-            boolean x2 = true;
             try {
-                x2 =eventService.createEvent(newEventInput2.getText(),checkInDatePicker2.getValue().toString(),privv);
-            } catch (ParseException ex) {
-                status2.setText("creation failed");
-                status2.setTextFill(Color.RED);
+                boolean x2 = true;
+                try {
+                    x2 =eventService.createEvent(newEventInput2.getText(),checkInDatePicker2.getValue().toString(),privv);
+                } catch (ParseException ex) {
+                    status2.setText("creation failed");
+                    status2.setTextFill(Color.RED);
+                    Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(!x2){
+                    status2.setText("creation failed");
+                    status2.setTextFill(Color.RED);
+                }else{
+                    status2.setText("");
+                    status2.setTextFill(Color.GREEN);
+                }
+                newEventInput2.setText("");
+                checkInDatePicker2.setValue(null);
+                redrawEventlistPrivate();
+            } catch (Exception ex) {
                 Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(!x2){
-                status2.setText("creation failed");
-                status2.setTextFill(Color.RED);
-            }else{
-                status2.setText("");
-                status2.setTextFill(Color.GREEN);
-            }
-            newEventInput2.setText("");
-            checkInDatePicker2.setValue(null);
-            redrawEventlistPrivate();
         });
 
         // seutp primary stage
