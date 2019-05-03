@@ -3,6 +3,7 @@ import dao.FileEventDao;
 import dao.FileUserDao;
 import domain.Event;
 import domain.User;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 import org.junit.Before;
@@ -20,9 +21,9 @@ public class EventTest {
     Event sports;
 
     @Before
-    public void setUp() throws ParseException {
-        fed = new FileEventDao();
-        fud = new FileUserDao();
+    public void setUp() throws ParseException, IOException {
+        fud = new FileUserDao("");
+        fed = new FileEventDao("",fud);
         kalle = new User("kalle","salasana");
         tuomas = new User("tuomas", "password");
         party = new Event("party", "2019-04-27", false, kalle);
@@ -31,33 +32,33 @@ public class EventTest {
     }
 
     @Test
-    public void createUserWorks(){
+    public void createUserWorks() throws Exception{
         assertTrue(fud.create(kalle) && fud.create(tuomas));
     }
 
     @Test
-    public void cannotCreateUserWithTakenUsername(){
+    public void cannotCreateUserWithTakenUsername() throws Exception{
         fud.create(kalle);
         assertFalse(fud.create(new User("kalle", "12345")));
     }
 
     @Test
-    public void cannotCreateUserWithUsernameOver24Characters(){
+    public void cannotCreateUserWithUsernameOver24Characters() throws Exception{
         assertFalse(fud.create(new User("abcdefghijklmnopqrstuvwxyzåäö", "12345")));
     }
 
     @Test
-    public void cannotCreateUserWithUsernameUnder3Characters(){
+    public void cannotCreateUserWithUsernameUnder3Characters() throws Exception{
         assertFalse(fud.create(new User("a_", "12345")));
     }
 
     @Test
-    public void cannotCreateUserWithPasswordOver24Characters(){
+    public void cannotCreateUserWithPasswordOver24Characters() throws Exception{
         assertFalse(fud.create(new User("12345", "abcdefghijklmnopqrstuvwxyzåäö")));
     }
 
     @Test
-    public void cannotCreateUserWithPasswordUnder3Characters(){
+    public void cannotCreateUserWithPasswordUnder3Characters() throws Exception{
         assertFalse(fud.create(new User("12345", "a_")));
     }
 
@@ -72,14 +73,14 @@ public class EventTest {
     }
     
     @Test
-    public void findByUsernameWorks(){
+    public void findByUsernameWorks() throws Exception{
         fud.create(kalle);
         fud.create(tuomas);
         assertEquals(fud.findByUsername("tuomas"),tuomas);
     }
 
     @Test
-    public void getAllWorks(){
+    public void getAllWorks() throws Exception{
         fud.create(kalle);
         fud.create(tuomas);
         User emma = new User("emma","fffff");
@@ -92,7 +93,7 @@ public class EventTest {
     }
 
     @Test
-    public void genarateUserIdWorks(){
+    public void genarateUserIdWorks() throws Exception{
         fud.create(kalle);
         fud.create(tuomas);
         assertTrue(kalle.getId()==1 && tuomas.getId()==2);

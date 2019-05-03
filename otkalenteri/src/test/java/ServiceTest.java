@@ -31,8 +31,8 @@ public class ServiceTest {
     
     @Before
     public void setUp() throws ParseException, Exception{
-        fed = new FileEventDao();
-        fud = new FileUserDao();
+        fud = new FileUserDao("");
+        fed = new FileEventDao("",fud);
         kalle = new User("kalle","salasana");
         User tuomas = new User("tuomas", "password");
         fud.create(kalle);
@@ -65,25 +65,25 @@ public class ServiceTest {
     }
     
     @Test
-    public void createUserWorksWithValidUser(){
+    public void createUserWorksWithValidUser() throws Exception{
         boolean c = es.createUser("nelly", "pony");
         assertTrue(c && fud.findByUsername("nelly") != null);
     }
     
     @Test
-    public void createUserDoesntWorkWithInvalidUsername(){
+    public void createUserDoesntWorkWithInvalidUsername() throws Exception{
         boolean c = es.createUser("n", "pass");
         assertFalse(c);
     }
     
     @Test
-    public void createUserDoesntWorkWithInvalidPassword(){
+    public void createUserDoesntWorkWithInvalidPassword() throws Exception{
         boolean c = es.createUser("nnn", "p");
         assertFalse(c);
     }
     
     @Test
-    public void createUserDoesntWorkWithTakenUsername(){
+    public void createUserDoesntWorkWithTakenUsername() throws Exception{
         boolean c = es.createUser("tuomas", "pony");
         assertFalse(c);
     }
@@ -101,13 +101,13 @@ public class ServiceTest {
     }
 
     @Test
-    public void markDoneWorks(){
+    public void markDoneWorks() throws Exception{
         es.markDone(party);
         assertFalse(es.getUpcomingPublic().contains(party));
     }
     
     @Test
-    public void getUpcomingPublicWorks(){
+    public void getUpcomingPublicWorks() throws Exception{
         List<Event> ans = new ArrayList<>();
         ans.add(party);
         assertEquals(ans,es.getUpcomingPublic());

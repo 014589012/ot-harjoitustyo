@@ -63,7 +63,7 @@ public class Otkalenteri extends Application{
         String userFile = properties.getProperty("userFile");
         String eventFile = properties.getProperty("eventFile");
 
-        FileUserDao userDao = new FileUserDao();
+        FileUserDao userDao = new FileUserDao(userFile);
         FileEventDao eventDao = new FileEventDao(eventFile, userDao);
         eventService = new EventService(eventDao, userDao);
         privv = false;
@@ -288,6 +288,11 @@ public class Otkalenteri extends Application{
         
         toPrivateButton.setOnAction(e->{
             privv=true;
+            try {
+                redrawEventlistPrivate();
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
             primaryStage.setScene(eventScenePrivate);
         });
         
@@ -381,6 +386,11 @@ public class Otkalenteri extends Application{
         });
         toPublicButton.setOnAction(e->{
             privv=false;
+//            try {
+//                redrawEventlist();
+//            } catch (Exception ex) {
+//                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             primaryStage.setScene(eventScene);
         });
 

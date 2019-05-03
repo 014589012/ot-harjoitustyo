@@ -20,7 +20,7 @@ public class FileUserDao implements UserDao{
     * Constructor for FileUserDao initializes list of users to an empty ArrayList.
     * 
     */
-    public FileUserDao() throws IOException {
+    public FileUserDao(String file) throws IOException {
         this.users = new ArrayList<>();
         this.file = file;
         try {

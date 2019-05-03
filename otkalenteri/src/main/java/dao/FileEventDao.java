@@ -43,7 +43,7 @@ public class FileEventDao implements EventDao{
     private void save() throws Exception{
         try (FileWriter writer = new FileWriter(new File(file))) {
             for (Event ev : events) {
-                writer.write(ev.getId() + ";" + ev.getName() + ";" + ev.getDate() + ";"+ ev.isPrivate() + ";" + ev.getUser().getUsername() + "\n");
+                writer.write(ev.getId() + ";" + ev.getName() + ";" + ev.getDateAsString() + ";"+ ev.isPrivate() + ";" + ev.getUser().getUsername() + "\n");
             }
         }
     }    
@@ -71,7 +71,7 @@ public class FileEventDao implements EventDao{
     public List<Event> getAllPrivate(User user) {
         List<Event> ans = new ArrayList<>();
         for (Event e2 : events) {
-            if(e2.getUser().getId()==user.getId() && e2.isPrivate()) ans.add(e2);
+            if(e2.getUser().getUsername().equals(user.getUsername()) && e2.isPrivate()) ans.add(e2);
         }
         return ans;
     }
