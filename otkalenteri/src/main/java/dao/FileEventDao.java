@@ -21,7 +21,7 @@ public class FileEventDao implements EventDao{
     * Constructor for FileEventDao initializes list of events to an empty ArrayList.
     * 
     */
-    public FileEventDao(String file, FileUserDao users) throws IOException {
+    public FileEventDao(String file, UserDao users) throws IOException {
         this.events = new ArrayList<>();
         this.file = file;
         try {
@@ -43,7 +43,12 @@ public class FileEventDao implements EventDao{
     private void save() throws Exception{
         try (FileWriter writer = new FileWriter(new File(file))) {
             for (Event ev : events) {
-                writer.write(ev.getId() + ";" + ev.getName() + ";" + ev.getDateAsString() + ";"+ ev.isPrivate() + ";" + ev.getUser().getUsername() + ";" + ev.getDescription().replace('\n', '*') +"\n");
+                if(ev.getDescription().isEmpty()){
+                    writer.write(ev.getId() + ";" + ev.getName() + ";" + ev.getDateAsString() + ";"+ ev.isPrivate() + ";" + ev.getUser().getUsername() + ";" + " " +"\n");
+                }else{
+                    writer.write(ev.getId() + ";" + ev.getName() + ";" + ev.getDateAsString() + ";"+ ev.isPrivate() + ";" + ev.getUser().getUsername() + ";" + ev.getDescription().replace('\n', '*') +"\n");
+                }
+                
             }
         }
     }

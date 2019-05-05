@@ -29,6 +29,29 @@ public class UserTest {
         tuomas = new User("tuomas", "password");
     }
     
+    
+    @Test
+    public void userGetIdWorks() throws Exception{
+        fud.create(kalle);
+        assertTrue(1==kalle.getId());
+    }
+    
+    @Test
+    public void userSetIdWorks() throws Exception{
+        kalle.setId(10);
+        assertTrue(10==kalle.getId());
+    }
+    
+    @Test
+    public void userGetUsernameWorks() throws Exception{
+        assertEquals("tuomas",tuomas.getUsername());
+    }
+    
+    @Test
+    public void userGetPasswordWorks() throws Exception{
+        assertEquals("password",tuomas.getPassword());
+    }
+    
     @Test
     public void createUserWorks() throws Exception{
         assertTrue(fud.create(kalle) && fud.create(tuomas));
@@ -69,7 +92,7 @@ public class UserTest {
     
     @Test
     public void isAdminReturnsTrueForAdmin(){
-        assertTrue(new User("kk5","iamadmin2").isAdmin());
+        assertTrue(new User("kk4","iamadmin2").isAdmin());
     }
     
     @Test

@@ -27,6 +27,7 @@ public class ServiceTest {
     FakeUserDao fud;
     EventService es;
     User kalle;
+    User tuomas;
     Event party;
     
     @Before
@@ -34,7 +35,7 @@ public class ServiceTest {
         fud = new FakeUserDao();
         fed = new FakeEventDao(fud);
         kalle = new User("kalle","salasana");
-        User tuomas = new User("tuomas", "password");
+        tuomas = new User("tuomas", "password");
         fud.create(kalle);
         fud.create(tuomas);
         party = new Event("party", "2022-04-27", false, kalle);
@@ -47,8 +48,13 @@ public class ServiceTest {
     }
     
     @Test
-    public void loginWorks(){
+    public void loginWorksTrue(){
         assertTrue(es.login("kalle", "salasana"));
+    }
+    
+    @Test
+    public void loginWorksFalse(){
+        assertFalse(es.login("kalle", "sa"));
     }
     
     @Test
@@ -99,6 +105,7 @@ public class ServiceTest {
         boolean c = es.createEvent("Ap", "2019-06-06",false);
         assertFalse(c);
     }
+    
 
     @Test
     public void markDoneWorks() throws Exception{
@@ -111,6 +118,22 @@ public class ServiceTest {
         List<Event> ans = new ArrayList<>();
         ans.add(party);
         assertEquals(ans,es.getUpcomingPublic());
+    }
+    
+    @Test
+    public void getUpcomingPrivateWorksEmpty() throws Exception{
+        assertTrue(es.getUpcomingPrivate(kalle).isEmpty());
+    }
+    
+    @Test
+    public void getUpcomingPrivateWorksNonEmpty() throws Exception{
+        assertEquals("crafts",es.getUpcomingPrivate(tuomas).get(0).getName());
+    }
+    
+    @Test
+    public void addDescriptionWorks() throws Exception{
+        es.addDescriptionToEvent("hello", party);
+        assertEquals("hello",party.getDescription());
     }
 
 }
