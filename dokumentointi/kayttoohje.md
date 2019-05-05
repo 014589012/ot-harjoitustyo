@@ -25,7 +25,7 @@ Klikkaa tapahtuman vieressä olevaa "info"-nappia niin näet tapahtuman yksityis
 voit editoida tekstikentässä olevaa tapahtuman kuvausta, joka on aluksi tyhjä.
 
 ### Tapahtuman poistaminen
-Paina tapahtuman vieressä olevaa "delete"-nappia. Huomioi, että et voi poistaa muiden käyttäjien luomia tapahtumia.
+Paina tapahtuman vieressä olevaa "delete"-nappia. Huomioi, että et voi poistaa muiden käyttäjien luomia tapahtumia ellet ole admin.
 
 ### Ulos kirjautuminen
 Paina oikean yläkulman "Logout"-nappia.
