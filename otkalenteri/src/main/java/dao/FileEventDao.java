@@ -31,7 +31,7 @@ public class FileEventDao implements EventDao{
                 int id = Integer.parseInt(parts[0]);
                 boolean prive = Boolean.parseBoolean(parts[3]);
                 User user = users.getAll().stream().filter(u->u.getUsername().equals(parts[4])).findFirst().orElse(null); 
-                Event ev = new Event(id, parts[1], parts[2],prive, user);
+                Event ev = new Event(id, parts[1], parts[2],prive, parts[5].replace('*', '\n'),user);
                 events.add(ev);
             }
         } catch (Exception e) {
@@ -43,10 +43,10 @@ public class FileEventDao implements EventDao{
     private void save() throws Exception{
         try (FileWriter writer = new FileWriter(new File(file))) {
             for (Event ev : events) {
-                writer.write(ev.getId() + ";" + ev.getName() + ";" + ev.getDateAsString() + ";"+ ev.isPrivate() + ";" + ev.getUser().getUsername() + "\n");
+                writer.write(ev.getId() + ";" + ev.getName() + ";" + ev.getDateAsString() + ";"+ ev.isPrivate() + ";" + ev.getUser().getUsername() + ";" + ev.getDescription().replace('\n', '*') +"\n");
             }
         }
-    }    
+    }
 
 
     private int generateId(){
@@ -84,6 +84,12 @@ public class FileEventDao implements EventDao{
             if(!e2.isPrivate()) ans.add(e2);
         }
         return ans;
+    }
+
+    @Override
+    public void addDescription(String des, Event ev) throws Exception{
+        ev.setDescription(des);
+        save();
     }
 
 }

@@ -23,16 +23,16 @@ import static org.junit.Assert.*;
  * @author kwkalle
  */
 public class ServiceTest {
-    FileEventDao fed;
-    FileUserDao fud;
+    FakeEventDao fed;
+    FakeUserDao fud;
     EventService es;
     User kalle;
     Event party;
     
     @Before
     public void setUp() throws ParseException, Exception{
-        fud = new FileUserDao("");
-        fed = new FileEventDao("",fud);
+        fud = new FakeUserDao();
+        fed = new FakeEventDao(fud);
         kalle = new User("kalle","salasana");
         User tuomas = new User("tuomas", "password");
         fud.create(kalle);

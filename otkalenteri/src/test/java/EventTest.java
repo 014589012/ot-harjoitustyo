@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 
 
 public class EventTest {
-    FileEventDao fed;
-    FileUserDao fud;
+    FakeEventDao fed;
+    FakeUserDao fud;
     User kalle;
     User tuomas;
     Event party;
@@ -22,44 +22,13 @@ public class EventTest {
 
     @Before
     public void setUp() throws ParseException, IOException {
-        fud = new FileUserDao("");
-        fed = new FileEventDao("",fud);
+        fud = new FakeUserDao();
+        fed = new FakeEventDao(fud);
         kalle = new User("kalle","salasana");
         tuomas = new User("tuomas", "password");
         party = new Event("party", "2019-04-27", false, kalle);
         crafts = new Event("crafts", "2019-06-10", true, tuomas);
         sports = new Event("urheilua", "2018-05-05", false, tuomas);
-    }
-
-    @Test
-    public void createUserWorks() throws Exception{
-        assertTrue(fud.create(kalle) && fud.create(tuomas));
-    }
-
-    @Test
-    public void cannotCreateUserWithTakenUsername() throws Exception{
-        fud.create(kalle);
-        assertFalse(fud.create(new User("kalle", "12345")));
-    }
-
-    @Test
-    public void cannotCreateUserWithUsernameOver24Characters() throws Exception{
-        assertFalse(fud.create(new User("abcdefghijklmnopqrstuvwxyzåäö", "12345")));
-    }
-
-    @Test
-    public void cannotCreateUserWithUsernameUnder3Characters() throws Exception{
-        assertFalse(fud.create(new User("a_", "12345")));
-    }
-
-    @Test
-    public void cannotCreateUserWithPasswordOver24Characters() throws Exception{
-        assertFalse(fud.create(new User("12345", "abcdefghijklmnopqrstuvwxyzåäö")));
-    }
-
-    @Test
-    public void cannotCreateUserWithPasswordUnder3Characters() throws Exception{
-        assertFalse(fud.create(new User("12345", "a_")));
     }
 
     @Test
@@ -72,25 +41,6 @@ public class EventTest {
         assertFalse(fed.create(new Event("a_", "2019-02-02",false,tuomas)));
     }
     
-    @Test
-    public void findByUsernameWorks() throws Exception{
-        fud.create(kalle);
-        fud.create(tuomas);
-        assertEquals(fud.findByUsername("tuomas"),tuomas);
-    }
-
-    @Test
-    public void getAllWorks() throws Exception{
-        fud.create(kalle);
-        fud.create(tuomas);
-        User emma = new User("emma","fffff");
-        fud.create(emma);
-        List<User> list = new ArrayList<>();
-        list.add(kalle);
-        list.add(tuomas);
-        list.add(emma);
-        assertEquals(list,fud.getAll());
-    }
 
     @Test
     public void genarateUserIdWorks() throws Exception{

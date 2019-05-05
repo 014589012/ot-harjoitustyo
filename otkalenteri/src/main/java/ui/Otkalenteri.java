@@ -76,6 +76,7 @@ public class Otkalenteri extends Application{
         label.setMinHeight(28);
         Label dt  = new Label(ev.getDateAsString());
         Button button = new Button("Delete");
+        Button infoButton = new Button("Info");
         button.setOnAction(e->{
             try {
                 eventService.markDone(ev);
@@ -93,17 +94,85 @@ public class Otkalenteri extends Application{
                 Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        infoButton.setOnAction(e->{
+            method(ev);
+        });
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         box.setPadding(new Insets(0,5,0,5));
         
         if(ev.getUser().equals(eventService.getLoggedUser())){
-            box.getChildren().addAll(label, spacer,dt, button);
-        } else {
-            box.getChildren().addAll(label,spacer,dt);
+            box.getChildren().addAll(label, spacer,dt, infoButton, button);
+        } else if(eventService.getLoggedUser()!=null){
+            if(eventService.getLoggedUser().isAdmin()){
+                box.getChildren().addAll(label, spacer,dt, infoButton, button);
+            }else{
+                box.getChildren().addAll(label,spacer,dt, infoButton);
+            }
+        }else{
+            box.getChildren().addAll(label,spacer,dt,infoButton);
         }
         return box;
+    }
+    
+    public void method(Event ev){
+        if(privv){
+            eventNodes2.getChildren().clear();
+        }else{
+            eventNodes.getChildren().clear();
+        }
+        TextArea textArea = new TextArea(ev.getDescription());
+        textArea.setMaxSize(300, 100);
+        textArea.setBorder(null);
+        textArea.setEditable(false);
+        if(ev.getUser().getUsername().equals(eventService.getLoggedUser().getUsername())){
+            textArea.setEditable(true);
+        }
+        HBox htop = new HBox(10);
+        Label eventNameLabel = new Label();
+        eventNameLabel.setText("EVENT: " + ev.getName());
+        Region spacer3 = new Region();
+        HBox.setHgrow(spacer3, Priority.NEVER);
+        Label eventCreatorLabel = new Label();
+        eventCreatorLabel.setText("CREATOR: " + ev.getUser().getUsername());
+        Button backOutButton = new Button("Exit Info-page");
+        if(ev.getUser().getUsername().equals(eventService.getLoggedUser().getUsername())){
+            backOutButton.setText("Save and Exit Info-page");
+        }
+        backOutButton.setOnAction(e->{
+            try {
+                eventService.addDescriptionToEvent(textArea.getText(), ev);
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                redrawEventlist();
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                redrawEventlistPrivate();
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        htop.getChildren().addAll(eventNameLabel,spacer3,eventCreatorLabel,backOutButton);
+        Label descriptionLabel = new Label();
+        descriptionLabel.setText("Description");
+        HBox hdown = new HBox(10);
+        if(ev.getUser().getUsername().equals(eventService.getLoggedUser().getUsername())){
+            Label hdownLabel = new Label();
+            hdownLabel.setText("You created this event so you may edit the details.");
+            hdownLabel.setTextFill(Color.GREEN);
+            hdown.getChildren().addAll(hdownLabel);
+        }
+        if(privv){
+            eventNodes2.getChildren().addAll(htop,descriptionLabel,textArea,hdown);
+        }else{
+            eventNodes.getChildren().addAll(htop,descriptionLabel,textArea,hdown);
+        }
+        
     }
 
     public void redrawEventlist() throws Exception {
@@ -164,6 +233,10 @@ public class Otkalenteri extends Application{
                     redrawEventlist();
                 } catch (Exception ex) {
                     Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(eventService.getLoggedUser().isAdmin()){
+                    menuLabel.setText("ADMIN: " + username);
+                    menuLabel2.setText("ADMIN: " + username);
                 }
                 primaryStage.setScene(eventScene);
                 usernameInput.setText("");
@@ -402,6 +475,11 @@ public class Otkalenteri extends Application{
         
         toPublicButton.setOnAction(e->{
             privv=false;
+            try {
+                redrawEventlist();
+            } catch (Exception ex) {
+                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+            }
             primaryStage.setScene(eventScene);
         });
 

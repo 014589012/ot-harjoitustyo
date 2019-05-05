@@ -22,10 +22,10 @@ public class Event {
 //        this.date= date;
         this.prive = prive;
         this.user = user;
-        this.description = "";
+        this.description = " ";
     }
     
-    public Event(int id, String name, String date, boolean prive, User user) throws ParseException {
+    public Event(int id, String name, String date, boolean prive, String des, User user) throws ParseException {
         this.id=id;
         this.name = name;
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -33,7 +33,7 @@ public class Event {
 //        this.date= date;
         this.prive = prive;
         this.user = user;
-        this.description = "";
+        this.description = des;
     }
 
     public String getName() {

@@ -1,4 +1,6 @@
-2;svenskajatkot;2019-05-05;true;ems
-5;a123;2019-06-05;false;a123
-6;privaaaa;2019-05-29;true;a123
-5;privaa2;2019-05-22;true;a123
+1;fads;2019-05-08;false;a123; fads
+2;priva;2019-05-09;true;a123; priva
+3;bbbb;2019-05-08;true;b123; bbbbb
+4;ahaa;2019-05-08;false;b123; ahaa
+5;fail;2019-05-23;false;a123; this*will*fail
+6;asd;2019-05-09;true;b123; 

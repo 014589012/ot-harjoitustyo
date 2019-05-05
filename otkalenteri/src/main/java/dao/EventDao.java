@@ -38,4 +38,6 @@ public interface EventDao {
     * @return List of all upcoming public events.
     */
     List<Event> getAllPublic();
+    
+    void addDescription(String des, Event ev) throws Exception;
 }

@@ -1,7 +1,7 @@
 package domain;
 
-import dao.FileEventDao;
-import dao.FileUserDao;
+import dao.EventDao;
+import dao.UserDao;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Date;
@@ -11,8 +11,8 @@ import java.util.Date;
  */
 public class EventService {
 
-    private final FileEventDao eventDao;
-    private final FileUserDao userDao;
+    private final EventDao eventDao;
+    private final UserDao userDao;
     private User loggedIn;
 
     /**
@@ -22,7 +22,7 @@ public class EventService {
     * @param   userDao   FileUserDao for the service.
     * 
     */
-    public EventService(FileEventDao eventDao, FileUserDao userDao) {
+    public EventService(EventDao eventDao, UserDao userDao) {
         this.eventDao = eventDao;
         this.userDao = userDao;
     }
@@ -139,6 +139,10 @@ public class EventService {
             if(!currentdate.before(ez.getDate())) eventDao.delete(ez);
         }
         return eventDao.getAllPrivate(user);
+    }
+    
+    public void addDescriptionToEvent(String des, Event ev) throws Exception{
+        eventDao.addDescription(des,ev);
     }
 
 
