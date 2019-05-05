@@ -17,6 +17,8 @@ Ohjelma on kalenteri, missä käyttäjät pystyvät luomaan yksityisiä ja julki
 
 [Second pre-release](https://github.com/014589012/ot-harjoitustyo/releases/tag/viikko6)
 
+[Release](https://github.com/014589012/ot-harjoitustyo/releases/tag/viikko7)
+
 #### Komennot
 
 ##### Jar
