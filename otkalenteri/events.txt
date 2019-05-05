@@ -1,5 +1,0 @@
-2;priva;2019-05-09;true;a123; priva*priii
-3;bbbb;2019-05-08;true;b123; bbbbb
-6;asd;2019-05-09;true;b123; 
-4;only mwe;2019-05-08;false;kk4; sdsds*ds*sd*s
-6;cvx;2019-05-05;false;b123; 
