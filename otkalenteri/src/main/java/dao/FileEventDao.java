@@ -70,6 +70,7 @@ public class FileEventDao implements EventDao{
     @Override
     public List<Event> getAllPrivate(User user) {
         List<Event> ans = new ArrayList<>();
+        if(user == null) return ans;
         for (Event e2 : events) {
             if(e2.getUser().getUsername().equals(user.getUsername()) && e2.isPrivate()) ans.add(e2);
         }

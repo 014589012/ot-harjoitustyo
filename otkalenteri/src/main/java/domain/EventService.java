@@ -118,9 +118,9 @@ public class EventService {
     */
     public List<Event> getUpcomingPublic() throws Exception {
         List<Event> z =eventDao.getAllPublic();
-	Date currentdate = new Date();
+	Date currentdate = new Date(System.currentTimeMillis()-24*60*60*1000);
         for (Event ez : z) {
-            if((!(currentdate.equals(ez.getDate()))) &&currentdate.after(ez.getDate())) eventDao.delete(ez);
+            if(currentdate.after(ez.getDate())) eventDao.delete(ez);
         }
         return eventDao.getAllPublic();
     }
@@ -134,7 +134,7 @@ public class EventService {
     */
     public List<Event> getUpcomingPrivate(User user) throws Exception {
         List<Event> z =eventDao.getAllPrivate(user);
-	Date currentdate = new Date();
+	Date currentdate = new Date(System.currentTimeMillis()-24*60*60*1000);
         for (Event ez : z) {
             if(!currentdate.before(ez.getDate())) eventDao.delete(ez);
         }

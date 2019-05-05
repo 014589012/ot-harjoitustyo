@@ -30,6 +30,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 
 
@@ -74,7 +75,7 @@ public class Otkalenteri extends Application{
         Label label  = new Label(ev.getName());
         label.setMinHeight(28);
         Label dt  = new Label(ev.getDateAsString());
-        Button button = new Button("delete");
+        Button button = new Button("Delete");
         button.setOnAction(e->{
             try {
                 eventService.markDone(ev);
@@ -258,7 +259,10 @@ public class Otkalenteri extends Application{
         newUserScene = new Scene(newUserPane, 500, 300);
 
         // Public scene
-
+        TextField newEventInput2 = new TextField();
+        Label status2 = new Label();
+        DatePicker checkInDatePicker2 = new DatePicker();
+        
         ScrollPane eventScollbar = new ScrollPane();
         BorderPane mainPane = new BorderPane(eventScollbar);
         eventScene = new Scene(mainPane, 500, 300);
@@ -279,12 +283,6 @@ public class Otkalenteri extends Application{
         menuPane.getChildren().addAll(menuLabel, menuSpacer, toPrivateButton, logoutButton);
         
         
-        logoutButton.setOnAction(e->{
-            eventService.logout();
-            eventNodes2.getChildren().clear();
-            menuLabel.setText("");
-            primaryStage.setScene(loginScene);
-        });
         
         toPrivateButton.setOnAction(e->{
             privv=true;
@@ -318,7 +316,21 @@ public class Otkalenteri extends Application{
         eventNameField.getChildren().addAll(eventName,newEventInput);
         createForm.setPadding(new Insets(0, 20, 10, 20)); 
         createForm.getChildren().addAll(eventNameField, gridPane, spacer, createEvent);
-
+        
+        logoutButton.setOnAction(e->{
+            eventService.logout();
+            eventNodes2.getChildren().clear();
+            menuLabel.setText("");
+            menuLabel2.setText("");
+            newEventInput.setText("");
+            newEventInput2.setText("");
+            status.setText("");
+            status2.setText("");
+            checkInDatePicker.setValue(null);
+            checkInDatePicker2.setValue(null);
+            primaryStage.setScene(loginScene);
+        });
+        
         eventNodes = new VBox(10);
         eventNodes.setMaxWidth(500);
         eventNodes.setMinWidth(300);
@@ -334,30 +346,39 @@ public class Otkalenteri extends Application{
         mainPane.setTop(menuPane);
 
         createEvent.setOnAction(e->{
-            boolean x = true;
             try {
-                x =eventService.createEvent(newEventInput.getText(),checkInDatePicker.getValue().toString(),privv);
-            } catch (ParseException ex) {
-                status.setText("creation failed");
-                status.setTextFill(Color.RED);
-                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if(!x){
-                status.setText("creation failed");
-                status.setTextFill(Color.RED);
-            }else{
-                status.setText("");
-                status.setTextFill(Color.GREEN);
-            }
-            newEventInput.setText("");
-            checkInDatePicker.setValue(null);
-            try {
-                redrawEventlist();
+                boolean x = true;
+                int y = 0;
+                try {
+                    y = eventService.getUpcomingPublic().size();
+                    x =eventService.createEvent(newEventInput.getText(),checkInDatePicker.getValue().toString(),privv);
+                } catch (ParseException ex) {
+                    status.setText("creation failed");
+                    status.setTextFill(Color.RED);
+                    Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if(!x){
+                    status.setText("creation failed");
+                    status.setTextFill(Color.RED);
+                }else{
+                    if(eventService.getUpcomingPublic().size()>y){
+                        status.setText("");
+                        status.setTextFill(Color.GREEN);
+                        newEventInput.setText("");
+                        checkInDatePicker.setValue(null);
+                        redrawEventlist();
+                    }else{
+                        status.setText("Set future date");
+                        status.setTextFill(Color.RED);
+                    }
+                }
             } catch (Exception ex) {
+                status.setText("creation failed");
+                status.setTextFill(Color.RED);
                 Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-
+        
         // Private scene
 
         ScrollPane eventScollbar2 = new ScrollPane();
@@ -367,7 +388,7 @@ public class Otkalenteri extends Application{
         VBox messagebox2 = new VBox(10);
         messagebox2.setAlignment(Pos.CENTER);
         Label whichSceneMessage2 = new Label();
-        Label status2 = new Label();
+
         whichSceneMessage2.setText("PRIVATE EVENTS");
         whichSceneMessage2.setTextFill(Color.GREEN);
         messagebox2.getChildren().addAll(whichSceneMessage2, status2);
@@ -378,25 +399,15 @@ public class Otkalenteri extends Application{
         Button logoutButton2 = new Button("Logout");
         Button toPublicButton = new Button("Public");
         menuPane2.getChildren().addAll(menuLabel2, menuSpacer2, toPublicButton, logoutButton2);
-        logoutButton2.setOnAction(e->{
-            eventService.logout();
-            eventNodes2.getChildren().clear();
-            menuLabel2.setText("");
-            primaryStage.setScene(loginScene);
-        });
+        
         toPublicButton.setOnAction(e->{
             privv=false;
-//            try {
-//                redrawEventlist();
-//            } catch (Exception ex) {
-//                Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
-//            }
             primaryStage.setScene(eventScene);
         });
 
         VBox vbox2 = new VBox(20);
         vbox2.setStyle("-fx-padding: 10;");
-        DatePicker checkInDatePicker2 = new DatePicker();
+
         GridPane gridPane2 = new GridPane();
         gridPane2.setHgap(10);
         gridPane2.setVgap(10);
@@ -409,7 +420,7 @@ public class Otkalenteri extends Application{
         Button createEvent2 = new Button("Create");
         Region spacer2 = new Region();
         HBox.setHgrow(spacer2, Priority.ALWAYS);
-        TextField newEventInput2 = new TextField();
+
         Label eventName2 = new Label();
         eventName2.setText("Event name");
         VBox eventNameField2 = new VBox(10);
@@ -417,6 +428,20 @@ public class Otkalenteri extends Application{
         createForm2.setPadding(new Insets(0, 20, 10, 20)); 
         createForm2.getChildren().addAll(eventNameField2, gridPane2, spacer2, createEvent2);
 
+        logoutButton2.setOnAction(e->{
+            eventService.logout();
+            eventNodes2.getChildren().clear();
+            menuLabel.setText("");
+            menuLabel2.setText("");
+            newEventInput.setText("");
+            newEventInput2.setText("");
+            status.setText("");
+            status2.setText("");
+            checkInDatePicker.setValue(null);
+            checkInDatePicker2.setValue(null);
+            primaryStage.setScene(loginScene);
+        });
+        
         eventNodes2 = new VBox(10);
         eventNodes2.setMaxWidth(500);
         eventNodes2.setMinWidth(300);
@@ -434,7 +459,9 @@ public class Otkalenteri extends Application{
         createEvent2.setOnAction(e->{
             try {
                 boolean x2 = true;
+                int y2 = 0;
                 try {
+                    y2 = eventService.getUpcomingPrivate(eventService.getLoggedUser()).size();
                     x2 =eventService.createEvent(newEventInput2.getText(),checkInDatePicker2.getValue().toString(),privv);
                 } catch (ParseException ex) {
                     status2.setText("creation failed");
@@ -445,25 +472,47 @@ public class Otkalenteri extends Application{
                     status2.setText("creation failed");
                     status2.setTextFill(Color.RED);
                 }else{
-                    status2.setText("");
-                    status2.setTextFill(Color.GREEN);
+                    if(eventService.getUpcomingPrivate(eventService.getLoggedUser()).size()>y2){
+                        status2.setText("");
+                        status2.setTextFill(Color.GREEN);
+                        newEventInput2.setText("");
+                        checkInDatePicker2.setValue(null);
+                        redrawEventlistPrivate();
+                    }else{
+                        status2.setText("Set future date");
+                        status2.setTextFill(Color.RED);
+                    }
                 }
-                newEventInput2.setText("");
-                checkInDatePicker2.setValue(null);
-                redrawEventlistPrivate();
             } catch (Exception ex) {
+                status2.setText("creation failed");
+                status2.setTextFill(Color.RED);
                 Logger.getLogger(Otkalenteri.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
+//        // Info stage
+//        TextArea textArea = new TextArea("hello world");
+//        textArea.setEditable(false);
+//        ScrollPane scrollPane3 = new ScrollPane(textArea);
+//        BorderPane infoPane = new BorderPane(scrollPane3);
+//        infoScene = new Scene(infoPane, 500, 300);
+//        HBox htop = new HBox(10);
+//        Label eventNameLabel = new Label();
+//        eventNameLabel.setText("Event: " + "asd");
+//        Region spacer3 = new Region();
+//        HBox.setHgrow(spacer3, Priority.ALWAYS);
+//        Label eventCreatorLabel = new Label();
+//        eventCreatorLabel.setText("Creator: " + "dude");
+//        htop.getChildren().addAll(eventNameLabel,spacer3,eventCreatorLabel);
+//        infoPane.setTop(htop);
+        
         // seutp primary stage
 
-        primaryStage.setTitle("otkalenteri");
+        primaryStage.setTitle("Kallen kalenteri");
         primaryStage.setScene(loginScene);
         primaryStage.show();
         primaryStage.setOnCloseRequest(e->{
             if (eventService.getLoggedUser()!=null) {
-//                e.consume();
                 System.out.print("Goodbye ");
                 System.out.println(eventService.getLoggedUser().getUsername());
             }
