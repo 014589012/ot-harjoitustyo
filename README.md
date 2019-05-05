@@ -8,7 +8,7 @@ Ohjelma on kalenteri, missä käyttäjät pystyvät luomaan yksityisiä ja julki
 
 [arkkitehtuuri](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/arkkitehtuuri.md)
 
-[käyttöohje](https://github.com/014589012/ot-harjoitustyo/edit/master/dokumentointi/kayttoohje.md)
+[käyttöohje](https://github.com/014589012/ot-harjoitustyo/blob/master/dokumentointi/kayttoohje.md)
 
 #### Github Release
 [First pre-release](https://github.com/014589012/ot-harjoitustyo/releases/tag/viikko5)
